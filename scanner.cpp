@@ -37,6 +37,13 @@ Token Scanner::GetNextToken() {
   return t;
 }
 
+Token Scanner::PeekNextToken() {
+    if (queue_token.empty()) {
+        BuildToken(); // Garante que haja pelo menos um token na fila
+    }
+    return queue_token.front(); // Retorna o próximo token sem removê-lo da fila
+}
+
 void Scanner::LexerError(std::string e) const {
   fprintf(stderr, "\n@@ Lexer error message: %s\n", e.c_str());
 }
@@ -69,6 +76,10 @@ bool Scanner::BuildToken() {
             break;
           }
         }
+        break;
+      }
+      case ',': {
+        this->queue_token.push(Token(std::string(1, ch), line, Type::kCommaChar));
         break;
       }
       case '+': case '-': {

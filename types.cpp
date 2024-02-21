@@ -15,6 +15,7 @@ const std::string kElse("else");
 const std::string kWhile("while");
 const std::string kDo("do");
 const std::string kNot("not");
+const std::string kComma(",");
 
 const std::map<Type, const char*> createTypeMap() {
     std::map<Type, const char*> m;
@@ -28,6 +29,7 @@ const std::map<Type, const char*> createTypeMap() {
     m.insert(std::make_pair(Type::kAddOperator, "Operador de adição"));
     m.insert(std::make_pair(Type::kMulOperator, "Operador de multiplicação"));
     m.insert(std::make_pair(Type::kEOF, "EOF"));
+    m.insert(std::make_pair(Type::kCommaChar, "Vírgula"));
     return m;
 }
 

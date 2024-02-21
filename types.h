@@ -13,7 +13,8 @@ enum Type {
   kRelOperator,
   kAddOperator,
   kMulOperator,
-  kEOF
+  kEOF,
+  kCommaChar
 };
 extern const std::string kProgram;
 extern const std::string kVar;
@@ -29,6 +30,7 @@ extern const std::string kElse;
 extern const std::string kWhile;
 extern const std::string kDo;
 extern const std::string kNot;
+extern const std::string kComma;
 extern const std::map<Type, const char*> kGetStrType;
 
 #endif //PASCC_LEX_TYPES
