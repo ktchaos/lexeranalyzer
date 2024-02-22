@@ -2,7 +2,7 @@
 #define PASCC_LEX_SCANNER
 
 #include <stdio.h>
-// #include <iostream>
+#include <iostream>
 #include <queue>
 #include <string>
 #include "types.h"
@@ -25,11 +25,10 @@ class Scanner {
     bool BuildToken();
     Token GetNextToken();
     Token PeekNextToken();
-    std::queue<Token> queue_token;
   private:
     char GetNextChar();
     FILE *stream;
-    // std::queue<Token> queue_token;
+    std::queue<Token> queue_token;
 };
 
 #endif //PASCC_LEX_SCANNER

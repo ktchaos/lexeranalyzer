@@ -157,8 +157,17 @@ bool Scanner::BuildToken() {
             word += ch;
             ch = GetNextChar();
           }
-          if(IsKeyWord(word))
-            type = Type::kKeyword;
+
+          // Verifica se a palavra é uma palavra-chave ou um operador lógico
+          if(IsKeyWord(word) || word == "and" || word == "or") {
+            if (word == "and") {
+              type = Type::kMulOperator;
+            } else if (word == "or") {
+              type = Type::kAddOperator;
+            } else {
+              type = Type::kKeyword;
+            }
+          }
 
           this->queue_token.push(Token(word, line, type));
           SetBuffer(ch);

@@ -7,7 +7,7 @@
 
 int main(){
   FILE* f;
-  f = fopen("Test2.pas", "r");
+  f = fopen("Test4.pas", "r");
   Scanner *s = new Scanner(f);
 
   // ANALISADOR LÉXICO

@@ -13,7 +13,9 @@ void Parser::eat(Type tokenType) {
         std::cout << "EAT IF --> " + currentToken.lexeme << std::endl;
         advance();
     } else {
-        std::cout << "EAT ELSE --> " + currentToken.lexeme << std::endl;
+        std::cout << "EAT ELSE Lexeme --> " << currentToken.lexeme << std::endl;
+        std::cout << "EAT ELSE Type --> " << currentToken.type << std::endl;
+        std::cout << "EAT ELSE Expected --> " << tokenType << std::endl;
         std::cerr << "Erro sintático na linha " << currentToken.line << ": esperado " << kGetStrType.at(tokenType) << ", encontrado " << currentToken.lexeme << std::endl;
         exit(EXIT_FAILURE);
     }
@@ -138,7 +140,14 @@ void Parser::comando() {
             // Trata-se de uma atribuição.
             variavel();
             eat(Type::kCommand); // ':='
-            expressao();
+            // antes precisamos verificar se depois de := há uma expressao válida
+
+            if (currentToken.type == Type::kIdentifier || currentToken.type == Type::kIntLiteral || currentToken.type == Type::kRealLiteral || currentToken.lexeme == "(" || currentToken.lexeme == "not") {
+                expressao();
+            } else {
+                std::cerr << "Erro sintático na linha " << currentToken.line << ": expressão inválida após ':='." << std::endl;
+                exit(EXIT_FAILURE);
+            }
         } else {
             // Trata-se de uma ativação de procedimento.
             ativacao_de_procedimento();
@@ -156,11 +165,9 @@ void Parser::comando() {
         expressao(); // Condição
         eat(Type::kKeyword); // 'do'
         comando(); // Comando a ser executado enquanto a condição for verdadeira
-    }// else {
-    //     std::cout << "ERROR ELSE --> " + currentToken.lexeme << std::endl;
-    //     std::cerr << "Erro sintático: comando desconhecido na linha " << currentToken.line << std::endl;
-    //     exit(EXIT_FAILURE);
-    // }
+    } else if (currentToken.lexeme == "begin") {
+        comando_composto();
+    }
 }
 
 void Parser::variavel() {
