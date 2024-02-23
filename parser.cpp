@@ -96,19 +96,19 @@ void Parser::argumentos() {
 }
 
 void Parser::lista_de_parametros() {
-    lista_de_identificadores();
+    // Processa o primeiro parâmetro
+    lista_de_identificadores(); // Pode haver múltiplos identificadores separados por vírgulas para o mesmo tipo
     eat(Type::kDelimiter); // ':'
     tipo();
+
+    // Enquanto houver um ponto e vírgula, significa que há mais parâmetros a serem processados
     while (currentToken.lexeme == ";") {
-        eat(Type::kDelimiter); // ';'
-        lista_de_identificadores();
+        eat(Type::kDelimiter); // Consome o ';', que separa os pares nome-tipo
+        lista_de_identificadores(); // Processa o próximo conjunto de identificadores
         eat(Type::kDelimiter); // ':'
         tipo();
     }
 }
-
-
-
 
 
 // Comando Composto
