@@ -11,16 +11,16 @@ int main(){
   Scanner *s = new Scanner(f);
 
   // ANALISADOR LÉXICO
-  // s->BuildToken();
-  // s->PrintToken();
-  // fclose(f);
+  s->BuildToken();
+  s->PrintToken();
+  fclose(f);
 
   // ANALISADOR SINTÁTICO
-  while (s->BuildToken()) {} // Constrói todos os tokens antes de iniciar a análise sintática.
-  Parser parser(s);
-  parser.parse();
-  fclose(f);
-  delete s;
+  // while (s->BuildToken()) {} // Constrói todos os tokens antes de iniciar a análise sintática.
+  // Parser parser(s);
+  // parser.parse();
+  // fclose(f);
+  // delete s;
 
   return 0;
 

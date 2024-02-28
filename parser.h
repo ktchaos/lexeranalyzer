@@ -12,7 +12,7 @@ private:
 
     void advance();
     void eat(Type tokenType);
-    void programa();
+    void program();
 
     void declaracoes_variaveis(); // Implementação da função conforme a gramática
     void declaracoes_de_subprogramas(); // Implementação da função conforme a gramática

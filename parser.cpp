@@ -1,5 +1,8 @@
 #include "parser.h"
 
+// -------------------------------------------------------------------------
+// Funcionalidades principais: constructor, advance, eat e program ---------
+// -------------------------------------------------------------------------
 Parser::Parser(Scanner* scanner) : scanner(scanner) {
     advance(); // Carrega o primeiro token
 }
@@ -10,18 +13,15 @@ void Parser::advance() {
 
 void Parser::eat(Type tokenType) {
     if (currentToken.type == tokenType) {
-        std::cout << "EAT IF --> " + currentToken.lexeme << std::endl;
         advance();
     } else {
-        std::cout << "EAT ELSE Lexeme --> " << currentToken.lexeme << std::endl;
-        std::cout << "EAT ELSE Type --> " << currentToken.type << std::endl;
-        std::cout << "EAT ELSE Expected --> " << tokenType << std::endl;
         std::cerr << "Erro sintático na linha " << currentToken.line << ": esperado " << kGetStrType.at(tokenType) << ", encontrado " << currentToken.lexeme << std::endl;
         exit(EXIT_FAILURE);
     }
 }
 
-void Parser::programa() {
+// Estrutura inicial sugerida pelo professor...
+void Parser::program() {
     eat(Type::kKeyword); // Primeiro token deve ser -> 'program'
     eat(Type::kIdentifier); // Nome do programa
     eat(Type::kDelimiter); // ';'
@@ -32,7 +32,9 @@ void Parser::programa() {
     eat(Type::kDelimiter); // '.'
 }
 
-// Declarações - Variáveis
+// -------------------------------------------------------------------------
+// Declarações das variáveis -----------------------------------------------
+// -------------------------------------------------------------------------
 void Parser::declaracoes_variaveis() {
     if (currentToken.lexeme == "var") {
         eat(Type::kKeyword); // 'var'
@@ -69,11 +71,9 @@ void Parser::tipo() {
 }
 
 
-
-
-
-
-// Declarações - Subprogramas
+// -------------------------------------------------------------------------
+// Declarações de subprogramas ---------------------------------------------
+// -------------------------------------------------------------------------
 void Parser::declaracoes_de_subprogramas() {
     while (currentToken.lexeme == "procedure") {
         eat(Type::kKeyword); // 'procedure'
@@ -111,7 +111,9 @@ void Parser::lista_de_parametros() {
 }
 
 
-// Comando Composto
+// -------------------------------------------------------------------------
+// Comando Composto --------------------------------------------------------
+// -------------------------------------------------------------------------
 void Parser::comando_composto() {
     eat(Type::kKeyword); // 'begin'
     comandos_opcionais();
@@ -171,7 +173,7 @@ void Parser::comando() {
 }
 
 void Parser::variavel() {
-    // Assume-se que variável é um identificador neste contexto.
+    // Assume que variável é um identificador neste contexto.
     eat(Type::kIdentifier);
 }
 
@@ -180,11 +182,10 @@ void Parser::parte_else() {
         eat(Type::kKeyword); // 'else'
         comando(); // Comando a ser executado se a condição do 'if' for falsa
     }
-    // Se não houver 'else', não faz nada, correspondendo à produção ε (vazio) na gramática.
+    // Se não houver 'else', não faz nada, correspondendo à produção ε na gramática.
 }
 
 void Parser::expressao() {
-    // Implementação simplificada. Deve ser expandida para cobrir todos os casos de expressão.
     expressao_simples();
     if (currentToken.type == Type::kRelOperator) {
         eat(Type::kRelOperator); // Operador relacional
@@ -193,7 +194,6 @@ void Parser::expressao() {
 }
 
 void Parser::expressao_simples() {
-    // Implementação simplificada. Deve ser expandida para cobrir todos os casos de expressão simples.
     if (currentToken.type == Type::kAddOperator || currentToken.lexeme == "-" || currentToken.lexeme == "+") {
         eat(currentToken.type); // Sinal
     }
@@ -205,7 +205,6 @@ void Parser::expressao_simples() {
 }
 
 void Parser::termo() {
-    // Implementação simplificada. Deve ser expandida para cobrir todos os casos de termo.
     fator();
     while (currentToken.type == Type::kMulOperator) {
         eat(Type::kMulOperator); // Operador multiplicativo
@@ -214,7 +213,6 @@ void Parser::termo() {
 }
 
 void Parser::fator() {
-    // Implementação simplificada. Deve ser expandida para cobrir todos os casos de fator.
     if (currentToken.type == Type::kIdentifier) {
         Token nextToken = scanner->PeekNextToken();
         if (nextToken.lexeme == "(") {
@@ -232,7 +230,6 @@ void Parser::fator() {
         eat(Type::kKeyword); // 'not'
         fator();
     }
-    // Adicione casos para true, false, etc.
 }
 
 void Parser::ativacao_de_procedimento() {
@@ -253,13 +250,14 @@ void Parser::lista_de_expressoes() {
 }
 
 
-
-// "Parse" - Análise em si
+// -------------------------------------------------------------------------
+// Parse - Início da compilação --------------------------------------------
+// -------------------------------------------------------------------------
 void Parser::parse() {
-    programa(); // Inicia a análise sintática
+    program(); // Inicia a análise sintática
     if (currentToken.type != Type::kEOF) {
         std::cerr << "Erro sintático: código após o final do programa." << std::endl;
     } else {
-        std::cout << "Buildou madafoca!" << std::endl;
+        std::cout << "Buildou com sucesso!" << std::endl;
     }
 }

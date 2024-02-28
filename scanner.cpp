@@ -23,7 +23,7 @@ Scanner::Scanner(FILE* file): stream(file) {}
 Scanner::~Scanner(){ fclose(stream); }
 
 char Scanner::GetNextChar() {
-  if(is_buffer){
+  if(is_buffer) {
     is_buffer = false;
     return buffer;
   } else {
@@ -60,7 +60,7 @@ void Scanner::PrintToken() {
 bool Scanner::BuildToken() {
   bool done = false;
 
-  while(not done){
+  while(not done) {
     char ch = GetNextChar();
     while(std::isspace(ch)){
       if(ch=='\n') ++line;
@@ -125,12 +125,12 @@ bool Scanner::BuildToken() {
         break;
       }
       default: {
-        if(std::isdigit(ch)){
+        if (std::isdigit(ch)) {
           Type type = Type::kIntLiteral;
           std::string number(1, ch);
           ch = GetNextChar();
 
-          while(std::isdigit(ch)){
+          while(std::isdigit(ch)) {
             number += ch;
             ch = GetNextChar();
           }
